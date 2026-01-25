@@ -30,23 +30,53 @@ def submit_lead():
         # Google Sheets Setup
         SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
         
-        # Check multiple locations for the Secret File
-        possible_paths = [
-            'service_account.json',                     # Local root
-            '/etc/secrets/service_account.json',        # Render default secret path
-            os.path.join(os.getcwd(), 'service_account.json') # Explicit CWD
-        ]
-        
         SERVICE_ACCOUNT_FILE = None
-        for path in possible_paths:
-            if os.path.exists(path):
-                SERVICE_ACCOUNT_FILE = path
-                print(f"Found service account at: {path}")
-                break
         
+        # 1. Try Environment Variable (Most Robust)
+        json_creds = os.environ.get('GOOGLE_CREDENTIALS_JSON')
+        if json_creds:
+            print("Found credentials in GOOGLE_CREDENTIALS_JSON env var.")
+            import json
+            import tempfile
+            # Write to temp file because Credentials.from_service_account_file needs a file
+            # Or use from_service_account_info if we parse it
+            try:
+                creds_dict = json.loads(json_creds)
+                credentials = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
+                SERVICE_ACCOUNT_FILE = "ENV_VAR" # Marker
+            except Exception as e:
+                print(f"Error parsing GOOGLE_CREDENTIALS_JSON: {e}")
+
+        # 2. If no Env Var, try File Paths
+        if not SERVICE_ACCOUNT_FILE:
+            possible_paths = [
+                'service_account.json',
+                '/etc/secrets/service_account.json',
+                os.path.join(os.getcwd(), 'service_account.json')
+            ]
+            
+            for path in possible_paths:
+                if os.path.exists(path):
+                    SERVICE_ACCOUNT_FILE = path
+                    print(f"Found service account at: {path}")
+                    break
+            
+            # DEBUG: List directories if file not found
+            if not SERVICE_ACCOUNT_FILE:
+                print("--- DEBUG: File not found. Listing directories ---")
+                print(f"Current Dir ({os.getcwd()}): {os.listdir(os.getcwd())}")
+                if os.path.exists('/etc/secrets'):
+                    print(f"/etc/secrets: {os.listdir('/etc/secrets')}")
+                else:
+                    print("/etc/secrets does not exist.")
+                print("--------------------------------------------------")
+
         if SERVICE_ACCOUNT_FILE:
-            credentials = Credentials.from_service_account_file(
-                SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+            # If we didn't load from Env Var yet, load from file
+            if SERVICE_ACCOUNT_FILE != "ENV_VAR":
+                credentials = Credentials.from_service_account_file(
+                    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+            
             gc = gspread.authorize(credentials)
             
             # Try to open 'OROVA Leads', create if not exists
@@ -54,18 +84,20 @@ def submit_lead():
             try:
                 sh = gc.open(sheet_name)
             except gspread.exceptions.SpreadsheetNotFound:
-                print(f"Sheet '{sheet_name}' not found. Creating it...")
-                sh = gc.create(sheet_name)
-                # Note: This sheet is created by the service account.
+                # Fallback to lowercase check
                 try:
-                    worksheet = sh.get_worksheet(0)
-                    worksheet.append_row(["Timestamp", "First Name", "Last Name", "Phone", "Business", "Email", "Area"])
-                    
-                    # Share with the client email if provided in the credentials?
-                    # Ideally prompt user to share it manually.
-                    print(f"Created new sheet. User must share '{sheet_name}' with {credentials.service_account_email} if they want to see it.")
+                    sh = gc.open('OROVA leads')
+                    print("Found sheet as 'OROVA leads' (lowercase).")
                 except:
-                    pass
+                    print(f"Sheet '{sheet_name}' not found. Creating it...")
+                    sh = gc.create(sheet_name)
+                    # Note: This sheet is created by the service account.
+                    try:
+                        worksheet = sh.get_worksheet(0)
+                        worksheet.append_row(["Timestamp", "First Name", "Last Name", "Phone", "Business", "Email", "Area"])
+                        print(f"Created new sheet. User must share '{sheet_name}' with {credentials.service_account_email}")
+                    except:
+                        pass
 
             worksheet = sh.sheet1
             
@@ -82,7 +114,6 @@ def submit_lead():
             return jsonify({"success": True, "message": "Lead saved to Google Sheets"})
         else:
              print("Service account file not found in any known location. Lead logged to console only.")
-             print(f"Checked paths: {possible_paths}")
              return jsonify({"success": True, "message": "Lead received (No Sheets config found)"})
 
     except Exception as e:
