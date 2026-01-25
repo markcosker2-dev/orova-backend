@@ -873,18 +873,25 @@
                 timestamp: new Date().toISOString()
             };
 
-            // Here you would send to your backend/Google Sheets
-            console.log('Form submitted:', formData);
+            // Send to backend
+            try {
+                fetch('/api/submit-lead', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                })
+                    .then(response => response.json())
+                    .then(data => console.log('Success:', data))
+                    .catch((error) => console.error('Error:', error));
+            } catch (error) {
+                console.error('Submission error:', error);
+            }
 
-            // Show success message
+            // Show success message immediately (optimistic UI)
             contactForm.style.display = 'none';
             successMessage.classList.remove('hidden');
-
-            // Optional: Send to Google Sheets or your backend
-            // fetch('YOUR_WEBHOOK_URL', {
-            //     method: 'POST',
-            //     body: JSON.stringify(formData)
-            // });
         });
     </script>
 </body>

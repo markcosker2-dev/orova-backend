@@ -6,6 +6,8 @@ from bs4 import BeautifulSoup
 import time
 import csv
 import io
+import gspread
+from google.oauth2.service_account import Credentials
 
 app = Flask(__name__, static_folder='.')
 CORS(app)
@@ -18,6 +20,59 @@ if not os.path.exists(UPLOAD_FOLDER):
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # ===== API ROUTES (MUST BE FIRST) =====
+
+@app.route('/api/submit-lead', methods=['POST'])
+def submit_lead():
+    data = request.json
+    print(f"Received lead: {data}")
+    
+    try:
+        # Google Sheets Setup
+        SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
+        SERVICE_ACCOUNT_FILE = 'service_account.json'
+        
+        if os.path.exists(SERVICE_ACCOUNT_FILE):
+            credentials = Credentials.from_service_account_file(
+                SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+            gc = gspread.authorize(credentials)
+            
+            # Try to open 'OROVA Leads', create if not exists
+            sheet_name = 'OROVA Leads'
+            try:
+                sh = gc.open(sheet_name)
+            except gspread.exceptions.SpreadsheetNotFound:
+                print(f"Sheet '{sheet_name}' not found. Creating it...")
+                sh = gc.create(sheet_name)
+                # Note: This sheet is created by the service account. 
+                # Ideally, we should share it with the user's email if known.
+                try:
+                    worksheet = sh.get_worksheet(0)
+                    worksheet.append_row(["Timestamp", "First Name", "Last Name", "Phone", "Business", "Email", "Area"])
+                except:
+                    pass
+
+            worksheet = sh.sheet1
+            
+            row = [
+                data.get('timestamp', ''),
+                data.get('firstName', ''),
+                data.get('lastName', ''),
+                data.get('phone', ''),
+                data.get('business', ''),
+                data.get('email', ''),
+                data.get('area', '')
+            ]
+            worksheet.append_row(row)
+            return jsonify({"success": True, "message": "Lead saved to Google Sheets"})
+        else:
+             print("Service account file not found (local). Lead logged only.")
+             return jsonify({"success": True, "message": "Lead received (No Sheets config)"})
+
+    except Exception as e:
+        print(f"Error saving to sheet: {e}")
+        return jsonify({"success": True, "message": "Lead received (Sheet update failed)"}), 200
+
+
 
 @app.route('/api/analyze_url', methods=['POST'])
 def analyze_url():

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Adquisition AI</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="glass-background"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <!-- V3: Using uploaded OROVA logo -->
+            <div class="logo">
+                <img src="/C:/Users/Mike/.gemini/antigravity/brain/ec32b2b3-490e-4dc9-bb69-2148e74f8b88/uploaded_image_1768994432448.png"
+                    alt="OROVA" style="height: 40px;">
+            </div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#pricing">Pricing</a>
+                <button class="btn-primary">Get Started</button>
+            </div>
+            <div class="mobile-menu-btn"><i class="fas fa-bars"></i></div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="badge">✨ OROVA Ad Manager V3</div>
+                <h1>Generate Your Entire <span class="gradient-text">Meta Campaign</span> in Seconds.</h1>
+                <p class="subtitle">Complete lead generation strategy: 3 testing angles, specific targeting, and
+                    algorithmic budget allocation.</p>
+
+                <div class="demo-card glass-panel">
+                    <!-- URL Input -->
+                    <div class="input-group">
+                        <label>Business Website / Social URL (Optional)</label>
+                        <div class="url-wrapper">
+                            <input type="text" id="businessUrl"
+                                placeholder="https://instagram.com/orova or https://website.com">
+                            <button class="btn-analyze" onclick="analyzeUrl()" title="Auto-fill details">
+                                <i class="fas fa-magic"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Product / Brand Name</label>
+                        <input type="text" id="productName" placeholder="e.g. OROVA Lead Scraper" value="">
+                    </div>
+                    <div class="input-group">
+                        <label>Target Audience</label>
+                        <input type="text" id="targetAudience" placeholder="e.g. Marketing Agencies in CA">
+                    </div>
+                    <div class="input-group">
+                        <label>Unique Selling Proposition (USP)</label>
+                        <input type="text" id="usp" placeholder="e.g. Automates entire prospecting workflow">
+                    </div>
+
+                    <!-- Media Upload -->
+                    <div class="input-group">
+                        <label>Media Assets (Images/Videos)</label>
+                        <div class="drop-zone" id="dropZone">
+                            <p>Drag & Drop files here or <span>Browse</span></p>
+                            <input type="file" id="fileInput" multiple accept="image/*,video/*" hidden>
+                            <div class="file-preview" id="filePreview"></div>
+                        </div>
+                    </div>
+
+                    <button class="btn-generate" onclick="generateAd()">
+                        <span id="btnText">Launch Campaign 🚀</span>
+                        <div class="loader" id="loader"></div>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Results Section (V3 Grid) -->
+    <section id="results" class="results-section hidden">
+        <div class="container">
+            <h2>Your <span class="highlight">Campaign Strategy</span></h2>
+
+            <!-- Strategy Row 1: The 3 Angles -->
+            <div class="results-grid" id="variationsGrid">
+                <!-- Injected via Script -->
+            </div>
+
+            <!-- Strategy Row 2: Targeting & Budget -->
+            <div class="strategy-row"
+                style="margin-top: 32px; display: grid; grid-template-columns: 2fr 1fr; gap: 32px;">
+                <!-- Card: Meta Targeting -->
+                <div class="result-card glass-panel">
+                    <div class="card-header">
+                        <i class="fas fa-bullseye"></i>
+                        <h3>Meta Targeting Strategy</h3>
+                    </div>
+                    <div class="card-body" id="resultTargeting">
+                        Loading...
+                    </div>
+                </div>
+
+                <!-- Card: Budget Strategy (New) -->
+                <div class="result-card glass-panel"
+                    style="background: linear-gradient(135deg, rgba(255,255,255,0.9), rgba(229, 46, 113, 0.1));">
+                    <div class="card-header">
+                        <i class="fas fa-wallet"></i>
+                        <h3>Budget & Scale</h3>
+                    </div>
+                    <div class="card-body" id="resultBudget">
+                        Loading...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Grid -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why this <span class="gradient-text">Works</span></h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card glass-panel">
+                    <div class="icon-box">🚀</div>
+                    <h3>Speed to Market</h3>
+                    <p>Launch campaigns in minutes, not days. No more writer's block.</p>
+                </div>
+                <div class="feature-card glass-panel">
+                    <div class="icon-box">🧠</div>
+                    <h3>Proven Frameworks</h3>
+                    <p>Built on AIDA and PAS marketing models that are proven to convert.</p>
+                </div>
+                <div class="feature-card glass-panel">
+                    <div class="icon-box">💎</div>
+                    <h3>Premium Design</h3>
+                    <p>A workspace that feels as good as the results it generates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

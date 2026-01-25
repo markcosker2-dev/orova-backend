@@ -1,0 +1,120 @@
+:root {
+    /* Base Colors - Deep Space Theme */
+    --bg-dark: #030712;
+    /* Slate 950 */
+    --bg-panel: #0f172a;
+    /* Slate 900 */
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+
+    /* Brand Colors - Aurora */
+    --primary: #E52E71;
+    /* Legacy Pink preserved */
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+
+    /* Glass Effect Variables */
+    --glass-surface: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glass-highlight: rgba(255, 255, 255, 0.03);
+
+    /* Spacing */
+    --nav-width: 260px;
+    --header-height: 80px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark);
+    font-family: 'Inter', sans-serif;
+    color: var(--text-primary);
+    overflow: hidden;
+    /* App-like feel */
+    height: 100vh;
+    display: flex;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Dynamic Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.15), transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(229, 46, 113, 0.1), transparent 40%);
+    z-index: -1;
+    pointer-events: none;
+    animation: pulseBg 20s ease-in-out infinite;
+}
+
+@keyframes pulseBg {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+#app {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --nav-width: 0px;
+        /* Hide sidebar on mobile */
+    }
+
+    #sidebar-container {
+        display: none !important;
+    }
+
+    #main-content {
+        width: 100% !important;
+        padding: 16px !important;
+    }
+
+    body {
+        overflow-y: auto;
+    }
+
+    /* Mobile wizard adjustments */
+    #wizard-container {
+        padding: 12px !important;
+    }
+
+    /* Stack buttons vertically on mobile */
+    .btn-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .btn-group button {
+        width: 100%;
+    }
+}
