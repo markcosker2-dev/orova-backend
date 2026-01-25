@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="OROVA - AI-powered lead generation and qualification for California automotive businesses. Stop wasting time on ghost leads.">
+    <title>OROVA | Stop Chasing Ghost Leads - AI Lead Qualification for Automotive</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            color: #1a1a1a;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        /* Gradient Background */
+        .gradient-bg {
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
+            position: relative;
+        }
+
+        .gradient-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        /* Audio Visualizer Canvas */
+        #audioVisualizer {
+            width: 200px;
+            height: 200px;
+            max-width: 100%;
+        }
+
+        @media (min-width: 768px) {
+            #audioVisualizer {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        /* Sticky CTA Animation */
+        .sticky-cta {
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sticky-cta.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* Button Hover Effects */
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(59, 130, 246, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Card Styles */
+        .glass-card {
+            background: #ffffff;
+            backdrop-filter: blur(20px);
+            border: 1px solid #e5e7eb;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .glass-card:hover {
+            background: #f9fafb;
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        /* Fade In Animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in forwards;
+            opacity: 0;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Pulse Animation for Play Button */
+        .pulse-ring {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+            }
+
+            50% {
+                box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+            }
+        }
+
+        /* Form Input Styles */
+        input[type="tel"],
+        input[type="text"],
+        input[type="email"] {
+            background: #ffffff;
+            border: 2px solid #e5e7eb;
+            color: #1a1a1a;
+            padding: 14px 18px;
+            border-radius: 12px;
+            width: 100%;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        input[type="tel"]:focus,
+        input[type="text"]:focus,
+        input[type="email"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: #f9fafb;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 14px;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        /* Check Icon Animation */
+        .check-icon {
+            color: #10b981;
+        }
+
+        /* OROVA Brand Font Style */
+        .orova-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sticky CTA Button (appears on scroll) -->
+    <div id="stickyCTA" class="sticky-cta fixed bottom-6 right-6 z-50 hidden md:block">
+        <button onclick="scrollToForm()"
+            class="btn-primary text-white font-bold py-4 px-8 rounded-full shadow-2xl flex items-center gap-3">
+            <i class="fas fa-calendar-check"></i>
+            Schedule Discovery Call
+        </button>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="gradient-bg relative min-h-screen flex items-center justify-center px-4 py-20">
+        <div class="max-w-6xl mx-auto text-center relative z-10 fade-in">
+            <!-- Logo/Brand -->
+            <div class="mb-8">
+                <img src="assets/orova-logo.png" alt="OROVA" class="mx-auto h-16 md:h-20">
+            </div>
+
+            <!-- Main Headline -->
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-gray-900">
+                Stop Chasing <span
+                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Ghost
+                    Leads</span>.<br>
+                Start Closing Real Deals.
+            </h1>
+
+            <!-- Sub-headline -->
+            <p class="text-xl md:text-2xl text-gray-700 mb-4 max-w-3xl mx-auto leading-relaxed">
+                70% of your automotive leads are wasting your time. We fix that.
+            </p>
+            <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
+                AI-powered lead qualification + CRM automation + appointment booking.<br class="hidden md:block">
+                Only talk to buyers who are ready to buy.
+            </p>
+
+            <!-- Primary CTA -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <button onclick="scrollToForm()"
+                    class="btn-primary text-white font-bold py-5 px-10 rounded-full text-lg shadow-2xl w-full sm:w-auto">
+                    <i class="fas fa-calendar-check mr-2"></i>
+                    Schedule Your Discovery Call
+                </button>
+                <a href="#demo"
+                    class="font-semibold py-5 px-10 rounded-full text-lg w-full sm:w-auto text-gray-800 border-2 border-gray-300 hover:border-blue-500 hover:text-blue-600 transition-all bg-white shadow-sm">
+                    <i class="fas fa-play mr-2 text-blue-500"></i>
+                    Hear Our AI
+                </a>
+            </div>
+
+            <!-- Trust Badge -->
+            <div class="mt-16 text-gray-600 text-sm">
+                <p><i class="fas fa-shield-alt text-blue-600 mr-2"></i>Trusted by automotive businesses across the US
+                </p>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <i class="fas fa-chevron-down text-gray-400 text-2xl"></i>
+        </div>
+    </section>
+
+    <!-- Problem/Agitate Section -->
+    <section class="bg-gray-50 py-20 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">You're Generating Leads...<br>But How Many
+                    Are Actually Worth Your Time?</h2>
+            </div>
+
+            <!-- Pain Points Grid -->
+            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                <div class="glass-card p-8">
+                    <div class="text-red-500 text-4xl mb-4"><i class="fas fa-ghost"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">70% Never Respond</h3>
+                    <p class="text-gray-600">After initial contact, most leads vanish. You're paying for names, not
+                        buyers.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-orange-500 text-4xl mb-4"><i class="fas fa-clock"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">15+ Hours Wasted Weekly</h3>
+                    <p class="text-gray-600">Your team spends more time chasing dead ends than closing deals.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-yellow-500 text-4xl mb-4"><i class="fas fa-window-restore"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Window Shoppers Kill Morale</h3>
+                    <p class="text-gray-600">Tire-kickers drain energy and waste slots that real buyers could fill.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-purple-500 text-4xl mb-4"><i class="fas fa-bolt"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Slow Follow-Up = Lost Deals</h3>
+                    <p class="text-gray-600">Leads contacted after 5 minutes have 80% lower conversion rates.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Voice Demo Section -->
+    <section id="demo" class="bg-white py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-5xl font-bold mb-4 text-gray-900">Most AI Sounds Robotic.<br>Ours Sounds
+                    Like Your Best Salesperson.</h2>
+                <p class="text-xl text-gray-600">Click to hear a real qualification call</p>
+            </div>
+
+            <!-- Audio Player with Visualizer -->
+            <div class="flex flex-col items-center justify-center">
+                <!-- Canvas Visualizer -->
+                <div class="relative mb-8">
+                    <canvas id="audioVisualizer" class="mx-auto"></canvas>
+                    <button id="playButton"
+                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl transition-all pulse-ring shadow-2xl">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+
+                <!-- Audio Element (hidden) -->
+                <audio id="audioPlayer" preload="auto">
+                    <source src="assets/ai-demo.wav" type="audio/wav">
+                    <source src="assets/ai-demo.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+
+                <!-- Audio Info -->
+                <div class="text-center max-w-2xl">
+                    <p class="text-gray-600 mb-4">
+                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+                        This is an actual outbound qualification call handled by our AI
+                    </p>
+                    <p class="text-sm text-gray-500 italic">Natural conversation • Budget qualification • Timeline
+                        assessment • CRM auto-update</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How OROVA Works Section -->
+    <section class="bg-gray-50 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">How OROVA Works</h2>
+                <p class="text-xl text-gray-600">End-to-end lead generation, qualification, and booking</p>
+            </div>
+
+            <!-- 3-Step Process -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="glass-card p-8 text-center">
+                    <div
+                        class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                        1</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">We Generate Qualified Leads</h3>
+                    <div class="text-left space-y-3 text-gray-600">
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Meta campaigns optimized for automotive</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Targeted by vehicle type & buyer intent</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>High-quality leads from day one</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="glass-card p-8 text-center">
+                    <div
+                        class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                        2</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Our AI Qualifies Every Lead</h3>
+                    <div class="text-left space-y-3 text-gray-600">
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Outbound calls within 60 seconds</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Asks budget, timeline, vehicle interest</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Filters window shoppers automatically</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Updates your CRM with notes</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="glass-card p-8 text-center">
+                    <div
+                        class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
+                        3</div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-900">You Get Calendar-Ready Appointments</h3>
+                    <div class="text-left space-y-3 text-gray-600">
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Only qualified leads book your time</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Complete lead profile sent before meeting</p>
+                        <p><i class="fas fa-check text-green-500 mr-2"></i>Focus 100% on closing, not chasing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="bg-white py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">The OROVA Advantage</h2>
+                <p class="text-xl text-gray-600">Measurable outcomes, not empty promises</p>
+            </div>
+
+            <!-- Benefits Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="glass-card p-8">
+                    <div class="text-blue-600 text-3xl mb-4"><i class="fas fa-clock-rotate-left"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Save 15+ Hours Per Week</h3>
+                    <p class="text-gray-600">No more chasing dead leads. Your team focuses on deals that close.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-green-600 text-3xl mb-4"><i class="fas fa-chart-line"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Higher Close Rates</h3>
+                    <p class="text-gray-600">Only talk to qualified buyers with real intent and budget.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-purple-600 text-3xl mb-4"><i class="fas fa-database"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Automated CRM Updates</h3>
+                    <p class="text-gray-600">No manual data entry. Every call is logged with notes automatically.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-orange-600 text-3xl mb-4"><i class="fas fa-moon"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">24/7 Lead Response</h3>
+                    <p class="text-gray-600">Never miss a hot lead again - we call back instantly.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-yellow-600 text-3xl mb-4"><i class="fas fa-location-dot"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Automotive Experts</h3>
+                    <p class="text-gray-600">We know the automotive market, your customers, and what works.</p>
+                </div>
+
+                <div class="glass-card p-8">
+                    <div class="text-red-600 text-3xl mb-4"><i class="fas fa-handshake"></i></div>
+                    <h3 class="text-xl font-bold mb-3 text-gray-900">Aligned Incentives</h3>
+                    <p class="text-gray-600">Pay only for qualified leads - our success depends on yours.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof Section -->
+    <section class="bg-gray-50 py-24 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">Trusted by Automotive Leaders Nationwide
+                </h2>
+                <p class="text-xl text-gray-600">Real results from real dealerships</p>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-8">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                            MR
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Mike Rodriguez</h4>
+                            <p class="text-sm text-gray-600">GM, Premium Auto SoCal</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"We were drowning in unqualified leads from other vendors. Now with
+                        OROVA, we only talk to serious buyers. Our close rate jumped 40% in the first month."</p>
+                    <div class="flex text-yellow-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 2 -->
+                <div class="glass-card p-8">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-purple-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                            SC
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">Sarah Chen</h4>
+                            <p class="text-sm text-gray-600">Owner, Elite Performance Motors</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"The AI sounds so natural, customers don't even realize it's
+                        automated. It freed up our team to focus on high-ticket builds instead of chasing tire-kickers."
+                    </p>
+                    <div class="flex text-yellow-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+
+                <!-- Testimonial 3 -->
+                <div class="glass-card p-8">
+                    <div class="flex items-center mb-4">
+                        <div
+                            class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
+                            DT
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-900">David Thompson</h4>
+                            <p class="text-sm text-gray-600">Sales Director, Bay Area Motors</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-700 mb-4">"Game changer. OROVA handles all the filtering and our CRM is always
+                        up to date. We're saving 20+ hours per week and closing more deals than ever."</p>
+                    <div class="flex text-yellow-500">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">1,000+</div>
+                    <div class="text-gray-600">Hours Saved</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-green-600 mb-2">60s</div>
+                    <div class="text-gray-600">Response Time</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2">24/7</div>
+                    <div class="text-gray-600">Lead Qualification</div>
+                </div>
+                <div>
+                    <div class="text-4xl md:text-5xl font-bold text-orange-600 mb-2">100%</div>
+                    <div class="text-gray-600">CRM Automation</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA Section -->
+    <section id="contact" class="bg-white py-24 px-4">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-12">
+                <div class="inline-block bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-sm font-semibold mb-6">
+                    <i class="fas fa-calendar-check mr-2"></i>SCHEDULE YOUR FREE CONSULTATION
+                </div>
+                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">Ready to Stop Wasting Time on Unqualified
+                    Leads?</h2>
+                <p class="text-xl text-gray-600 mb-8">Schedule a discovery call to see how OROVA can transform your lead
+                    qualification process.</p>
+            </div>
+
+            <!-- Contact Form -->
+            <div class="glass-card p-8 md:p-12 max-w-2xl mx-auto">
+                <form id="contactForm" class="space-y-6">
+                    <!-- First Name & Last Name -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="firstName" class="block text-sm font-semibold mb-2 text-gray-700">
+                                First Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
+                        </div>
+                        <div>
+                            <label for="lastName" class="block text-sm font-semibold mb-2 text-gray-700">
+                                Last Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="lastName" name="lastName" placeholder="Smith" required>
+                        </div>
+                    </div>
+
+                    <!-- Phone Number (Required) -->
+                    <div>
+                        <label for="phone" class="block text-sm font-semibold mb-2 text-gray-700">
+                            Phone Number <span class="text-red-500">*</span>
+                        </label>
+                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required
+                            pattern="[0-9\s\-\(\)\+]+">
+                        <div id="phoneError" class="error-message">Please enter a valid phone number</div>
+                    </div>
+
+                    <!-- Business Name (Optional) -->
+                    <div>
+                        <label for="business" class="block text-sm font-semibold mb-2 text-gray-700">Business
+                            Name</label>
+                        <input type="text" id="business" name="business" placeholder="Your dealership or shop name">
+                    </div>
+
+                    <!-- Email (Optional) -->
+                    <div>
+                        <label for="email" class="block text-sm font-semibold mb-2 text-gray-700">Email</label>
+                        <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
+                    </div>
+
+                    <!-- Service Area (Optional) -->
+                    <div>
+                        <label for="area" class="block text-sm font-semibold mb-2 text-gray-700">City / State</label>
+                        <input type="text" id="area" name="area" placeholder="e.g., Los Angeles, CA">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit"
+                        class="btn-primary w-full text-white font-bold py-5 px-8 rounded-full text-lg shadow-2xl">
+                        <i class="fas fa-calendar-check mr-2"></i>
+                        Schedule My Discovery Call
+                    </button>
+
+                    <!-- Success Message -->
+                    <div id="successMessage"
+                        class="hidden bg-green-500/20 border border-green-500 text-green-400 p-4 rounded-lg text-center">
+                        <i class="fas fa-check-circle text-2xl mb-2"></i>
+                        <p class="font-semibold">Thank you! We'll contact you within 24 hours.</p>
+                    </div>
+                </form>
+
+                <!-- Privacy Note -->
+                <p class="text-sm text-gray-700 text-center mt-6">
+                    <i class="fas fa-lock mr-1"></i>
+                    Your information is secure. We'll only use it to schedule your discovery call.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200 py-12 px-4">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <!-- Brand -->
+                <div>
+                    <img src="assets/orova-logo.png" alt="OROVA" class="h-8 mb-2">
+                    <p class="text-gray-600">AI-powered lead qualification for automotive businesses nationwide.</p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="font-semibold mb-4 text-gray-900">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><a href="#demo" class="hover:text-blue-600 transition">AI Demo</a></li>
+                        <li><a href="#contact" class="hover:text-blue-600 transition">Contact</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-blue-600 transition">Terms of Service</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div>
+                    <h4 class="font-semibold mb-4 text-gray-900">Get in Touch</h4>
+                    <a href="https://www.instagram.com/orova.co" target="_blank"
+                        class="text-gray-600 hover:text-pink-500 transition flex items-center mb-2">
+                        <i class="fab fa-instagram mr-2 text-pink-500 text-lg"></i>orova.co
+                    </a>
+                    <p class="text-gray-600 mb-2"><i class="fas fa-phone mr-2 text-blue-600"></i>(555) OROVA-AI</p>
+                    <p class="text-gray-600"><i class="fas fa-clock mr-2 text-blue-600"></i>24/7 AI Support</p>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-200 pt-8 text-center text-gray-600 text-sm">
+                <p>&copy; 2026 OROVA Systems. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Audio Visualizer
+        const canvas = document.getElementById('audioVisualizer');
+        const ctx = canvas.getContext('2d');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playButton = document.getElementById('playButton');
+        let isPlaying = false;
+        let animationId;
+
+        // Set canvas size
+        const setCanvasSize = () => {
+            const size = window.innerWidth >= 768 ? 280 : 200;
+            canvas.width = size;
+            canvas.height = size;
+        };
+        setCanvasSize();
+        window.addEventListener('resize', setCanvasSize);
+
+        // Audio context for visualizer
+        let audioContext, analyser, source;
+
+        const initAudio = () => {
+            if (!audioContext) {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                source = audioContext.createMediaElementSource(audioPlayer);
+                source.connect(analyser);
+                analyser.connect(audioContext.destination);
+            }
+        };
+
+        // Play/Pause functionality
+        playButton.addEventListener('click', async () => {
+            try {
+                initAudio();
+
+                // Resume audio context if suspended (required by browsers)
+                if (audioContext.state === 'suspended') {
+                    await audioContext.resume();
+                }
+
+                if (isPlaying) {
+                    audioPlayer.pause();
+                    playButton.innerHTML = '<i class="fas fa-play"></i>';
+                    isPlaying = false;
+                    cancelAnimationFrame(animationId);
+                    drawStaticCircle();
+                } else {
+                    await audioPlayer.play();
+                    playButton.innerHTML = '<i class="fas fa-pause"></i>';
+                    isPlaying = true;
+                    visualize();
+                }
+            } catch (error) {
+                console.error('Audio playback error:', error);
+                alert('Could not play audio. Please try again.');
+            }
+        });
+
+        // Draw static circle when not playing
+        const drawStaticCircle = () => {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+            const radius = Math.min(canvas.width, canvas.height) / 3;
+
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+        };
+
+        // Visualize audio
+        const visualize = () => {
+            const bufferLength = analyser.frequencyBinCount;
+            const dataArray = new Uint8Array(bufferLength);
+
+            const draw = () => {
+                animationId = requestAnimationFrame(draw);
+                analyser.getByteFrequencyData(dataArray);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                const centerX = canvas.width / 2;
+                const centerY = canvas.height / 2;
+                const radius = Math.min(canvas.width, canvas.height) / 3;
+                const barCount = 60;
+
+                for (let i = 0; i < barCount; i++) {
+                    const angle = (i / barCount) * Math.PI * 2;
+                    const dataIndex = Math.floor((i / barCount) * bufferLength);
+                    const amplitude = dataArray[dataIndex] / 255;
+                    const barHeight = amplitude * 60;
+
+                    const x1 = centerX + Math.cos(angle) * radius;
+                    const y1 = centerY + Math.sin(angle) * radius;
+                    const x2 = centerX + Math.cos(angle) * (radius + barHeight);
+                    const y2 = centerY + Math.sin(angle) * (radius + barHeight);
+
+                    const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
+                    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.8)');
+                    gradient.addColorStop(1, 'rgba(168, 85, 247, 0.8)');
+
+                    ctx.beginPath();
+                    ctx.moveTo(x1, y1);
+                    ctx.lineTo(x2, y2);
+                    ctx.strokeStyle = gradient;
+                    ctx.lineWidth = 3;
+                    ctx.stroke();
+                }
+
+                // Center circle
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, radius * 0.8, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(26, 26, 46, 0.8)';
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            };
+
+            draw();
+        };
+
+        // Reset on audio end
+        audioPlayer.addEventListener('ended', () => {
+            playButton.innerHTML = '<i class="fas fa-play"></i>';
+            isPlaying = false;
+            cancelAnimationFrame(animationId);
+            drawStaticCircle();
+        });
+
+        // Initialize static circle
+        drawStaticCircle();
+
+        // Sticky CTA
+        const stickyCTA = document.getElementById('stickyCTA');
+        let hasScrolled = false;
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 600 && !hasScrolled) {
+                stickyCTA.classList.add('visible');
+                hasScrolled = true;
+            } else if (window.scrollY <= 600 && hasScrolled) {
+                stickyCTA.classList.remove('visible');
+                hasScrolled = false;
+            }
+        });
+
+        // Scroll to form
+        const scrollToForm = () => {
+            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        // Form validation and submission
+        const contactForm = document.getElementById('contactForm');
+        const phoneInput = document.getElementById('phone');
+        const phoneError = document.getElementById('phoneError');
+        const successMessage = document.getElementById('successMessage');
+
+        // Phone validation
+        phoneInput.addEventListener('blur', () => {
+            const phoneRegex = /^[\d\s\-\(\)\+]{10,}$/;
+            if (phoneInput.value && !phoneRegex.test(phoneInput.value)) {
+                phoneError.classList.add('show');
+                phoneInput.style.borderColor = '#ef4444';
+            } else {
+                phoneError.classList.remove('show');
+                phoneInput.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            }
+        });
+
+        // Form submission
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const phoneRegex = /^[\d\s\-\(\)\+]{10,}$/;
+            if (!phoneRegex.test(phoneInput.value)) {
+                phoneError.classList.add('show');
+                phoneInput.style.borderColor = '#ef4444';
+                phoneInput.focus();
+                return;
+            }
+
+            // Collect form data
+            const formData = {
+                firstName: document.getElementById('firstName').value,
+                lastName: document.getElementById('lastName').value,
+                phone: phoneInput.value,
+                business: document.getElementById('business').value,
+                email: document.getElementById('email').value,
+                area: document.getElementById('area').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Here you would send to your backend/Google Sheets
+            console.log('Form submitted:', formData);
+
+            // Show success message
+            contactForm.style.display = 'none';
+            successMessage.classList.remove('hidden');
+
+            // Optional: Send to Google Sheets or your backend
+            // fetch('YOUR_WEBHOOK_URL', {
+            //     method: 'POST',
+            //     body: JSON.stringify(formData)
+            // });
+        });
+    </script>
+</body>
+
+</html>
