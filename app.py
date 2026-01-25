@@ -29,9 +29,22 @@ def submit_lead():
     try:
         # Google Sheets Setup
         SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 'https://www.googleapis.com/auth/drive']
-        SERVICE_ACCOUNT_FILE = 'service_account.json'
         
-        if os.path.exists(SERVICE_ACCOUNT_FILE):
+        # Check multiple locations for the Secret File
+        possible_paths = [
+            'service_account.json',                     # Local root
+            '/etc/secrets/service_account.json',        # Render default secret path
+            os.path.join(os.getcwd(), 'service_account.json') # Explicit CWD
+        ]
+        
+        SERVICE_ACCOUNT_FILE = None
+        for path in possible_paths:
+            if os.path.exists(path):
+                SERVICE_ACCOUNT_FILE = path
+                print(f"Found service account at: {path}")
+                break
+        
+        if SERVICE_ACCOUNT_FILE:
             credentials = Credentials.from_service_account_file(
                 SERVICE_ACCOUNT_FILE, scopes=SCOPES)
             gc = gspread.authorize(credentials)
@@ -43,11 +56,14 @@ def submit_lead():
             except gspread.exceptions.SpreadsheetNotFound:
                 print(f"Sheet '{sheet_name}' not found. Creating it...")
                 sh = gc.create(sheet_name)
-                # Note: This sheet is created by the service account. 
-                # Ideally, we should share it with the user's email if known.
+                # Note: This sheet is created by the service account.
                 try:
                     worksheet = sh.get_worksheet(0)
                     worksheet.append_row(["Timestamp", "First Name", "Last Name", "Phone", "Business", "Email", "Area"])
+                    
+                    # Share with the client email if provided in the credentials?
+                    # Ideally prompt user to share it manually.
+                    print(f"Created new sheet. User must share '{sheet_name}' with {credentials.service_account_email} if they want to see it.")
                 except:
                     pass
 
@@ -65,8 +81,9 @@ def submit_lead():
             worksheet.append_row(row)
             return jsonify({"success": True, "message": "Lead saved to Google Sheets"})
         else:
-             print("Service account file not found (local). Lead logged only.")
-             return jsonify({"success": True, "message": "Lead received (No Sheets config)"})
+             print("Service account file not found in any known location. Lead logged to console only.")
+             print(f"Checked paths: {possible_paths}")
+             return jsonify({"success": True, "message": "Lead received (No Sheets config found)"})
 
     except Exception as e:
         print(f"Error saving to sheet: {e}")
