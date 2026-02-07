@@ -1,897 +1,975 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="OROVA - AI-powered lead generation and qualification for California automotive businesses. Stop wasting time on ghost leads.">
-    <title>OROVA | Stop Chasing Ghost Leads - AI Lead Qualification for Automotive</title>
-
+    <title>OROVA — The Private Pipeline</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
 
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Inter', sans-serif;
-            background: #ffffff;
-            color: #1a1a1a;
-            overflow-x: hidden;
         }
 
-        h1,
-        h2,
-        h3 {
-            font-family: 'Plus Jakarta Sans', sans-serif;
+        .font-mono {
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        /* Gradient Background */
-        .gradient-bg {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 50%, #ffffff 100%);
-            position: relative;
-        }
-
-        .gradient-bg::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-
-        /* Audio Visualizer Canvas */
-        #audioVisualizer {
-            width: 200px;
-            height: 200px;
-            max-width: 100%;
-        }
-
-        @media (min-width: 768px) {
-            #audioVisualizer {
-                width: 280px;
-                height: 280px;
-            }
-        }
-
-        /* Sticky CTA Animation */
-        .sticky-cta {
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .sticky-cta.visible {
-            transform: translateY(0);
-            opacity: 1;
-        }
-
-        /* Button Hover Effects */
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            transition: all 0.3s ease;
-        }
-
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(59, 130, 246, 0.5);
-            transform: translateY(-2px);
-        }
-
-        /* Card Styles */
         .glass-card {
-            background: #ffffff;
-            backdrop-filter: blur(20px);
-            border: 1px solid #e5e7eb;
-            border-radius: 16px;
-            transition: all 0.3s ease;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .glass-card:hover {
-            background: #f9fafb;
-            border-color: rgba(59, 130, 246, 0.3);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
         }
 
-        /* Fade In Animation */
-        .fade-in {
-            animation: fadeIn 0.6s ease-in forwards;
-            opacity: 0;
-        }
-
-        @keyframes fadeIn {
-            to {
-                opacity: 1;
-            }
-        }
-
-        /* Pulse Animation for Play Button */
-        .pulse-ring {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-
-            0%,
-            100% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
             }
 
             50% {
-                box-shadow: 0 0 0 20px rgba(59, 130, 246, 0);
+                transform: translateY(-20px);
+            }
+
+            100% {
+                transform: translateY(0px);
             }
         }
 
-        /* Form Input Styles */
-        input[type="tel"],
-        input[type="text"],
-        input[type="email"] {
-            background: #ffffff;
-            border: 2px solid #e5e7eb;
-            color: #1a1a1a;
-            padding: 14px 18px;
-            border-radius: 12px;
+        .glow-input:focus {
+            border-bottom-color: white;
+            box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1);
+        }
+
+        /* Hide Scrollbar */
+        ::-webkit-scrollbar {
+            width: 0px;
+            background: transparent;
+        }
+
+        /* Pulse Animation */
+        .pulse-ring {
+            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            animation: pulse-white 2s infinite;
+        }
+
+        @keyframes pulse-white {
+            0% {
+                transform: translate(-50%, -50%) scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+            }
+
+            70% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 0 20px rgba(255, 255, 255, 0);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(0.95);
+                box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+            }
+        }
+
+        /* Aurora Background */
+        .aurora-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            background: #000;
+            overflow: hidden;
+        }
+
+        .aurora-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.4;
+            animation: aurora-move 10s infinite alternate;
+        }
+
+        .blob-1 {
+            top: -10%;
+            left: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: #0f172a;
+            animation-duration: 12s;
+        }
+
+        .blob-2 {
+            bottom: -10%;
+            right: -10%;
+            width: 50vw;
+            height: 50vw;
+            background: #1e1b4b;
+            animation-duration: 15s;
+        }
+
+        .blob-3 {
+            top: 40%;
+            left: 40%;
+            width: 40vw;
+            height: 40vw;
+            background: #312e81;
+            animation-duration: 18s;
+            opacity: 0.2;
+        }
+
+        @keyframes aurora-move {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            100% {
+                transform: translate(20px, 20px) scale(1.1);
+            }
+        }
+
+        /* Audio Waves */
+        .audio-wave {
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            transform: scale(0.5);
+        }
+
+        /* Ring Wave Animation (Active State) */
+        .ring-wave::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             width: 100%;
-            font-size: 16px;
-            transition: all 0.3s ease;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            opacity: 0;
+            z-index: -1;
+            /* Use volume-based scale if possible, otherwise animation */
+            animation: ripple-effect 2s infinite linear;
         }
 
-        input[type="tel"]:focus,
-        input[type="text"]:focus,
-        input[type="email"]:focus {
-            outline: none;
-            border-color: #3b82f6;
-            background: #f9fafb;
+        .ring-wave::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            opacity: 0;
+            z-index: -1;
+            animation: ripple-effect 2s infinite linear;
+            animation-delay: 1s;
         }
 
-        .error-message {
-            color: #ef4444;
-            font-size: 14px;
-            margin-top: 6px;
-            display: none;
+        @keyframes ripple-effect {
+            0% {
+                width: 100%;
+                height: 100%;
+                opacity: 0.8;
+                border-width: 2px;
+            }
+
+            100% {
+                width: 300%;
+                height: 300%;
+                opacity: 0;
+                border-width: 0px;
+            }
         }
 
-        .error-message.show {
-            display: block;
-        }
-
-        /* Check Icon Animation */
-        .check-icon {
-            color: #10b981;
-        }
-
-        /* OROVA Brand Font Style */
-        .orova-brand {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 800;
-            letter-spacing: 0.05em;
-            text-transform: uppercase;
+        /* Noise Texture */
+        .noise-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+            opacity: 0.03;
         }
     </style>
 </head>
 
-<body>
-    <!-- Sticky CTA Button (appears on scroll) -->
-    <div id="stickyCTA" class="sticky-cta fixed bottom-6 right-6 z-50 hidden md:block">
-        <button onclick="scrollToForm()"
-            class="btn-primary text-white font-bold py-4 px-8 rounded-full shadow-2xl flex items-center gap-3">
-            <i class="fas fa-calendar-check"></i>
-            Schedule Discovery Call
-        </button>
+<body class="bg-black text-white overflow-x-hidden">
+    <!-- Background Effects -->
+    <div class="aurora-bg">
+        <div class="aurora-blob blob-1"></div>
+        <div class="aurora-blob blob-2"></div>
+        <div class="aurora-blob blob-3"></div>
     </div>
+    <div class="noise-overlay"></div>
 
-    <!-- Hero Section -->
-    <section class="gradient-bg relative min-h-screen flex items-center justify-center px-4 py-20">
-        <div class="max-w-6xl mx-auto text-center relative z-10 fade-in">
-            <!-- Logo/Brand -->
-            <div class="mb-8">
-                <img src="assets/orova-logo.png" alt="OROVA" class="mx-auto h-16 md:h-20">
-            </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-[100] px-6 py-6 transition-all duration-300" id="navbar">
+        <div class="max-w-[1400px] mx-auto flex justify-between items-center">
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="assets/orova-logo.png" alt="OROVA Logo"
+                    class="h-8 w-auto invert opacity-90 group-hover:opacity-100 transition-opacity duration-300">
+            </a>
 
-            <!-- Main Headline -->
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-tight text-gray-900">
-                Stop Chasing <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Ghost
-                    Leads</span>.<br>
-                Start Closing Real Deals.
-            </h1>
-
-            <!-- Sub-headline -->
-            <p class="text-xl md:text-2xl text-gray-700 mb-4 max-w-3xl mx-auto leading-relaxed">
-                70% of your automotive leads are wasting your time. We fix that.
-            </p>
-            <p class="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl mx-auto">
-                AI-powered lead qualification + CRM automation + appointment booking.<br class="hidden md:block">
-                Only talk to buyers who are ready to buy.
-            </p>
-
-            <!-- Primary CTA -->
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <button onclick="scrollToForm()"
-                    class="btn-primary text-white font-bold py-5 px-10 rounded-full text-lg shadow-2xl w-full sm:w-auto">
-                    <i class="fas fa-calendar-check mr-2"></i>
-                    Schedule Your Discovery Call
-                </button>
-                <a href="#demo"
-                    class="font-semibold py-5 px-10 rounded-full text-lg w-full sm:w-auto text-gray-800 border-2 border-gray-300 hover:border-blue-500 hover:text-blue-600 transition-all bg-white shadow-sm">
-                    <i class="fas fa-play mr-2 text-blue-500"></i>
-                    Hear Our AI
+            <div
+                class="hidden md:flex items-center gap-8 text-[10px] font-mono uppercase tracking-[0.3em] text-white/40">
+                <a href="#process" class="hover:text-white transition-colors duration-300 relative group">
+                    Process
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#sectors" class="hover:text-white transition-colors duration-300 relative group">
+                    Sectors
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
+                </a>
+                <a href="#briefing" class="hover:text-white transition-colors duration-300 relative group">
+                    Access
+                    <span
+                        class="absolute -bottom-1 left-0 w-0 h-[1px] bg-white transition-all duration-300 group-hover:w-full"></span>
                 </a>
             </div>
+        </div>
+    </nav>
 
-            <!-- Trust Badge -->
-            <div class="mt-16 text-gray-600 text-sm">
-                <p><i class="fas fa-shield-alt text-blue-600 mr-2"></i>Trusted by automotive businesses across the US
-                </p>
-            </div>
+    <!-- Hero Section -->
+    <section
+        class="hero-section min-h-screen flex items-center justify-center px-6 pt-32 pb-20 relative overflow-hidden">
+        <!-- Subtle Grid Background -->
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <i class="fas fa-chevron-down text-gray-400 text-2xl"></i>
-        </div>
-    </section>
-
-    <!-- Problem/Agitate Section -->
-    <section class="bg-gray-50 py-20 px-4">
-        <div class="max-w-6xl mx-auto">
+        <div class="max-w-[1200px] mx-auto w-full relative z-10">
             <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">You're Generating Leads...<br>But How Many
-                    Are Actually Worth Your Time?</h2>
-            </div>
-
-            <!-- Pain Points Grid -->
-            <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-                <div class="glass-card p-8">
-                    <div class="text-red-500 text-4xl mb-4"><i class="fas fa-ghost"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">70% Never Respond</h3>
-                    <p class="text-gray-600">After initial contact, most leads vanish. You're paying for names, not
-                        buyers.</p>
+                <!-- Status Badge -->
+                <div
+                    class="inline-flex items-center gap-3 mb-12 px-6 py-3 rounded-full bg-white/5 border border-white/10 backdrop-blur-md animate-float">
+                    <span class="w-2 h-2 rounded-full bg-white animate-pulse"></span>
+                    <span class="text-[10px] font-mono uppercase tracking-[0.4em] text-white/60">Limited
+                        Availability</span>
                 </div>
 
-                <div class="glass-card p-8">
-                    <div class="text-orange-500 text-4xl mb-4"><i class="fas fa-clock"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">15+ Hours Wasted Weekly</h3>
-                    <p class="text-gray-600">Your team spends more time chasing dead ends than closing deals.</p>
-                </div>
+                <!-- Main Headline -->
+                <h1
+                    class="text-[clamp(3.5rem,9vw,8rem)] font-mono font-bold leading-[0.85] tracking-tighter mb-8 hero-headline mix-blend-difference">
+                    THE PRIVATE<br>
+                    <span class="text-white/20 font-light italic">PIPELINE.</span>
+                </h1>
 
-                <div class="glass-card p-8">
-                    <div class="text-yellow-500 text-4xl mb-4"><i class="fas fa-window-restore"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Window Shoppers Kill Morale</h3>
-                    <p class="text-gray-600">Tire-kickers drain energy and waste slots that real buyers could fill.</p>
-                </div>
+                <!-- Subheadline -->
+                <p
+                    class="text-lg md:text-xl text-white/50 font-light max-w-2xl mx-auto leading-relaxed mb-16 hero-subtext">
+                    Proprietary lead acquisition infrastructure for luxury brands. <br class="hidden md:block">
+                    No mass marketing. No generic funnels. Only qualified clients.
+                </p>
 
-                <div class="glass-card p-8">
-                    <div class="text-purple-500 text-4xl mb-4"><i class="fas fa-bolt"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Slow Follow-Up = Lost Deals</h3>
-                    <p class="text-gray-600">Leads contacted after 5 minutes have 80% lower conversion rates.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- AI Voice Demo Section -->
-    <section id="demo" class="bg-white py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl md:text-5xl font-bold mb-4 text-gray-900">Most AI Sounds Robotic.<br>Ours Sounds
-                    Like Your Best Salesperson.</h2>
-                <p class="text-xl text-gray-600">Click to hear a real qualification call</p>
-            </div>
-
-            <!-- Audio Player with Visualizer -->
-            <div class="flex flex-col items-center justify-center">
-                <!-- Canvas Visualizer -->
-                <div class="relative mb-8">
-                    <canvas id="audioVisualizer" class="mx-auto"></canvas>
-                    <button id="playButton"
-                        class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-blue-500 hover:bg-blue-600 text-white rounded-full w-20 h-20 flex items-center justify-center text-3xl transition-all pulse-ring shadow-2xl">
-                        <i class="fas fa-play"></i>
+                <div class="flex justify-center gap-6 hero-subtext">
+                    <button onclick="document.getElementById('briefing').scrollIntoView({behavior:'smooth'})"
+                        class="magnetic-btn px-8 py-4 bg-white text-black font-mono text-[10px] uppercase tracking-[0.3em] hover:bg-white/90 transition-all rounded-full relative overflow-hidden group">
+                        <span class="relative z-10">Request Access</span>
+                        <div
+                            class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
+                        </div>
                     </button>
                 </div>
+            </div>
 
-                <!-- Audio Element (hidden) -->
-                <audio id="audioPlayer" preload="auto">
-                    <source src="assets/ai-demo.wav" type="audio/wav">
-                    <source src="assets/ai-demo.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+            <!-- Floating UI Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto floating-cards">
+                <!-- Card 1: Metric -->
+                <div class="glass-card p-8 rounded-2xl group transition-all duration-500">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                            </svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-white/40 uppercase tracking-wider">Performance</span>
+                    </div>
+                    <div class="text-4xl font-mono font-bold mb-2">$1.8M</div>
+                    <div class="text-xs text-white/40 font-mono uppercase tracking-wide">Avg. Project Value</div>
+                </div>
 
-                <!-- Audio Info -->
-                <div class="text-center max-w-2xl">
-                    <p class="text-gray-600 mb-4">
-                        <i class="fas fa-info-circle text-blue-600 mr-2"></i>
-                        This is an actual outbound qualification call handled by our AI
-                    </p>
-                    <p class="text-sm text-gray-500 italic">Natural conversation • Budget qualification • Timeline
-                        assessment • CRM auto-update</p>
+                <!-- Card 2: Metric -->
+                <div class="glass-card p-8 rounded-2xl group transition-all duration-500">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-white/40 uppercase tracking-wider">Efficiency</span>
+                    </div>
+                    <div class="text-4xl font-mono font-bold mb-2">60s</div>
+                    <div class="text-xs text-white/40 font-mono uppercase tracking-wide">AI Qualification Lead Time
+                    </div>
+                </div>
+
+                <!-- Card 3: Metric -->
+                <div class="glass-card p-8 rounded-2xl group transition-all duration-500">
+                    <div class="flex items-center justify-between mb-6">
+                        <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                            </svg>
+                        </div>
+                        <span class="text-[10px] font-mono text-white/40 uppercase tracking-wider">Scale</span>
+                    </div>
+                    <div class="text-4xl font-mono font-bold mb-2">100%</div>
+                    <div class="text-xs text-white/40 font-mono uppercase tracking-wide">CRM Automated Sync</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How OROVA Works Section -->
-    <section class="bg-gray-50 py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">How OROVA Works</h2>
-                <p class="text-xl text-gray-600">End-to-end lead generation, qualification, and booking</p>
-            </div>
-
-            <!-- 3-Step Process -->
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Step 1 -->
-                <div class="glass-card p-8 text-center">
-                    <div
-                        class="bg-blue-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                        1</div>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-900">We Generate Qualified Leads</h3>
-                    <div class="text-left space-y-3 text-gray-600">
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Meta campaigns optimized for automotive</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Targeted by vehicle type & buyer intent</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>High-quality leads from day one</p>
-                    </div>
-                </div>
-
-                <!-- Step 2 -->
-                <div class="glass-card p-8 text-center">
-                    <div
-                        class="bg-purple-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                        2</div>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-900">Our AI Qualifies Every Lead</h3>
-                    <div class="text-left space-y-3 text-gray-600">
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Outbound calls within 60 seconds</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Asks budget, timeline, vehicle interest</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Filters window shoppers automatically</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Updates your CRM with notes</p>
-                    </div>
-                </div>
-
-                <!-- Step 3 -->
-                <div class="glass-card p-8 text-center">
-                    <div
-                        class="bg-green-500 text-white w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-6">
-                        3</div>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-900">You Get Calendar-Ready Appointments</h3>
-                    <div class="text-left space-y-3 text-gray-600">
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Only qualified leads book your time</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Complete lead profile sent before meeting</p>
-                        <p><i class="fas fa-check text-green-500 mr-2"></i>Focus 100% on closing, not chasing</p>
-                    </div>
-                </div>
-            </div>
+    <!-- Process Section -->
+    <section id="process" class="py-32 px-6 relative scroll-section scroll-mt-24">
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
         </div>
-    </section>
 
-    <!-- Benefits Section -->
-    <section class="bg-white py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">The OROVA Advantage</h2>
-                <p class="text-xl text-gray-600">Measurable outcomes, not empty promises</p>
-            </div>
-
-            <!-- Benefits Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="glass-card p-8">
-                    <div class="text-blue-600 text-3xl mb-4"><i class="fas fa-clock-rotate-left"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Save 15+ Hours Per Week</h3>
-                    <p class="text-gray-600">No more chasing dead leads. Your team focuses on deals that close.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-green-600 text-3xl mb-4"><i class="fas fa-chart-line"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Higher Close Rates</h3>
-                    <p class="text-gray-600">Only talk to qualified buyers with real intent and budget.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-purple-600 text-3xl mb-4"><i class="fas fa-database"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Automated CRM Updates</h3>
-                    <p class="text-gray-600">No manual data entry. Every call is logged with notes automatically.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-orange-600 text-3xl mb-4"><i class="fas fa-moon"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">24/7 Lead Response</h3>
-                    <p class="text-gray-600">Never miss a hot lead again - we call back instantly.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-yellow-600 text-3xl mb-4"><i class="fas fa-location-dot"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Automotive Experts</h3>
-                    <p class="text-gray-600">We know the automotive market, your customers, and what works.</p>
-                </div>
-
-                <div class="glass-card p-8">
-                    <div class="text-red-600 text-3xl mb-4"><i class="fas fa-handshake"></i></div>
-                    <h3 class="text-xl font-bold mb-3 text-gray-900">Aligned Incentives</h3>
-                    <p class="text-gray-600">Pay only for qualified leads - our success depends on yours.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Social Proof Section -->
-    <section class="bg-gray-50 py-24 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="text-center mb-16">
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">Trusted by Automotive Leaders Nationwide
+        <div class="max-w-[1200px] mx-auto relative z-10">
+            <div class="mb-20 text-center">
+                <span
+                    class="text-[10px] font-mono uppercase tracking-[0.5em] text-white/40 mb-6 block">Methodology</span>
+                <h2 class="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-none mb-6">
+                    HOW WE<br>
+                    <span class="text-white/20 font-light">OPERATE.</span>
                 </h2>
-                <p class="text-xl text-gray-600">Real results from real dealerships</p>
+                <p class="text-white/40 max-w-2xl mx-auto text-lg font-light leading-relaxed">
+                    Proprietary infrastructure designed exclusively for luxury market penetration.
+                </p>
             </div>
 
-            <!-- Testimonials -->
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Testimonial 1 -->
-                <div class="glass-card p-8">
-                    <div class="flex items-center mb-4">
+            <!-- Process Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 process-cards">
+                <!-- Process 1 -->
+                <div
+                    class="process-card p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group">
+                    <div class="flex items-start justify-between mb-8">
                         <div
-                            class="bg-blue-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
-                            MR
+                            class="text-6xl font-mono font-bold text-white/10 group-hover:text-white/20 transition-colors">
+                            01</div>
+                        <div
+                            class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+                            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
                         </div>
+                    </div>
+                    <h3 class="text-2xl font-mono font-semibold mb-4 tracking-tight uppercase">Proprietary Scrape</h3>
+                    <p class="text-white/50 leading-relaxed font-light">
+                        Our internal engine (Proprietary Engine) scans global markets for high-intent signals. We don't
+                        buy lists; we
+                        build them in real-time.
+                    </p>
+                </div>
+
+                <!-- Process 2 -->
+                <div
+                    class="process-card p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group">
+                    <div class="flex items-start justify-between mb-8">
+                        <div
+                            class="text-6xl font-mono font-bold text-white/10 group-hover:text-white/20 transition-colors">
+                            02</div>
+                        <div
+                            class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+                            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-mono font-semibold mb-4 tracking-tight uppercase">Voice Qualification</h3>
+                    <p class="text-white/50 leading-relaxed font-light">
+                        Hyper-realistic AI outreach within 60 seconds of lead capture. We qualify budget, timeline, and
+                        intent before you ever see the name.
+                    </p>
+                </div>
+
+                <!-- Process 3 -->
+                <div
+                    class="process-card p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group">
+                    <div class="flex items-start justify-between mb-8">
+                        <div
+                            class="text-6xl font-mono font-bold text-white/10 group-hover:text-white/20 transition-colors">
+                            03</div>
+                        <div
+                            class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+                            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-mono font-semibold mb-4 tracking-tight uppercase">Automated Intake</h3>
+                    <p class="text-white/50 leading-relaxed font-light">
+                        Seamless integration into your OROVA Leads sheet. Real-time notifications ensure your sales team
+                        strikes while the lead is boiling.
+                    </p>
+                </div>
+
+                <!-- Process 4 -->
+                <div
+                    class="process-card p-10 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group">
+                    <div class="flex items-start justify-between mb-8">
+                        <div
+                            class="text-6xl font-mono font-bold text-white/10 group-hover:text-white/20 transition-colors">
+                            04</div>
+                        <div
+                            class="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:rotate-12 transition-transform duration-500">
+                            <svg class="w-6 h-6 text-white/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                    d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-2xl font-mono font-semibold mb-4 tracking-tight uppercase">ROI Maximization</h3>
+                    <p class="text-white/50 leading-relaxed font-light">
+                        Stop paying for ghost leads. Our system focuses 100% of your energy on the top 10% of the
+                        market.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Demo Section -->
+    <section id="demo" class="py-32 px-6 relative scroll-section scroll-mt-24 border-t border-white/5">
+        <!-- Subtle Grid Background -->
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
+        </div>
+
+        <div class="max-w-[1200px] mx-auto relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-[10px] font-mono uppercase tracking-[0.5em] text-white/40 mb-6 block">Live
+                        Interface</span>
+                    <h2 class="text-4xl md:text-5xl font-mono font-bold tracking-tighter leading-none mb-6">
+                        HEAR THE<br>
+                        <span class="text-white/20 font-light">DIFFERENCE.</span>
+                    </h2>
+                    <p class="text-white/40 text-lg font-light leading-relaxed mb-8">
+                        Most AI agents sound robotic. Ours sounds like your best salesperson. Listen to a live
+                        qualification call.
+                    </p>
+                    <div class="flex items-center gap-4 text-[10px] font-mono uppercase tracking-wider text-white/30">
+                        <span class="flex items-center gap-2"><span class="w-1 h-1 bg-green-500 rounded-full"></span>
+                            Natural Pause</span>
+                        <span class="flex items-center gap-2"><span class="w-1 h-1 bg-green-500 rounded-full"></span>
+                            Context Aware</span>
+                        <span class="flex items-center gap-2"><span class="w-1 h-1 bg-green-500 rounded-full"></span>
+                            CRM Sync</span>
+                    </div>
+                </div>
+
+                <!-- Audio Demo Container -->
+                <div class="relative w-[300px] h-[300px] flex items-center justify-center">
+                    <!-- CSS Pulse Rings -->
+                    <div id="pulseRing1"
+                        class="absolute inset-0 rounded-full border border-cyan-400/30 scale-50 opacity-0"></div>
+                    <div id="pulseRing2"
+                        class="absolute inset-0 rounded-full border border-blue-500/30 scale-50 opacity-0"></div>
+
+                    <!-- Play Button (Static, Absolute Center) -->
+                    <button id="playButton"
+                        class="absolute inset-0 m-auto w-24 h-24 bg-white text-black rounded-full flex items-center justify-center hover:scale-105 transition-transform duration-300 z-20 shadow-[0_0_30px_rgba(255,255,255,0.3)]">
+                        <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
+                        </svg>
+                    </button>
+
+                    <audio id="audioPlayer" preload="auto">
+                        <source src="assets/ai-demo.wav" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-32 px-6 relative scroll-section scroll-mt-24">
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
+        </div>
+
+        <div class="max-w-[1400px] mx-auto relative z-10">
+            <div class="mb-20 text-center">
+                <span
+                    class="text-[10px] font-mono uppercase tracking-[0.5em] text-white/40 mb-6 block">Validation</span>
+                <h2 class="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-none mb-6">
+                    TRUSTED<br>
+                    <span class="text-white/20 font-light">PARTNERS.</span>
+                </h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Testimonial 1 -->
+                <div class="glass-card p-10 rounded-2xl">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white/60 font-mono text-sm">
+                            MR</div>
                         <div>
-                            <h4 class="font-bold text-gray-900">Mike Rodriguez</h4>
-                            <p class="text-sm text-gray-600">GM, Premium Auto SoCal</p>
+                            <div class="font-mono text-sm font-bold text-white">Mike Rodriguez</div>
+                            <div class="font-mono text-[10px] text-white/40 uppercase">Premium Auto SoCal</div>
                         </div>
                     </div>
-                    <p class="text-gray-700 mb-4">"We were drowning in unqualified leads from other vendors. Now with
-                        OROVA, we only talk to serious buyers. Our close rate jumped 40% in the first month."</p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed font-light">"We were drowning in unqualified leads.
+                        Now with OROVA, we only talk to serious buyers. Our close rate jumped 40% in month one."</p>
                 </div>
 
                 <!-- Testimonial 2 -->
-                <div class="glass-card p-8">
-                    <div class="flex items-center mb-4">
+                <div class="glass-card p-10 rounded-2xl">
+                    <div class="flex items-center gap-4 mb-6">
                         <div
-                            class="bg-purple-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
-                            SC
-                        </div>
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white/60 font-mono text-sm">
+                            JL</div>
                         <div>
-                            <h4 class="font-bold text-gray-900">Sarah Chen</h4>
-                            <p class="text-sm text-gray-600">Owner, Elite Performance Motors</p>
+                            <div class="font-mono text-sm font-bold text-white">James Lawrence</div>
+                            <div class="font-mono text-[10px] text-white/40 uppercase">Lawrence Luxury Estates</div>
                         </div>
                     </div>
-                    <p class="text-gray-700 mb-4">"The AI sounds so natural, customers don't even realize it's
-                        automated. It freed up our team to focus on high-ticket builds instead of chasing tire-kickers."
-                    </p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
+                    <p class="text-white/60 text-sm leading-relaxed font-light">"The ability to filter for $50k+ remodel
+                        projects automatically has saved my team hundreds of hours. It just works."</p>
                 </div>
 
                 <!-- Testimonial 3 -->
-                <div class="glass-card p-8">
-                    <div class="flex items-center mb-4">
+                <div class="glass-card p-10 rounded-2xl">
+                    <div class="flex items-center gap-4 mb-6">
                         <div
-                            class="bg-green-500 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-xl mr-4">
-                            DT
-                        </div>
+                            class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center text-white/60 font-mono text-sm">
+                            SC</div>
                         <div>
-                            <h4 class="font-bold text-gray-900">David Thompson</h4>
-                            <p class="text-sm text-gray-600">Sales Director, Bay Area Motors</p>
+                            <div class="font-mono text-sm font-bold text-white">Sarah Chen</div>
+                            <div class="font-mono text-[10px] text-white/40 uppercase">Elite Performance Motors</div>
                         </div>
                     </div>
-                    <p class="text-gray-700 mb-4">"Game changer. OROVA handles all the filtering and our CRM is always
-                        up to date. We're saving 20+ hours per week and closing more deals than ever."</p>
-                    <div class="flex text-yellow-500">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Stats -->
-            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-                <div>
-                    <div class="text-4xl md:text-5xl font-bold text-blue-600 mb-2">1,000+</div>
-                    <div class="text-gray-600">Hours Saved</div>
-                </div>
-                <div>
-                    <div class="text-4xl md:text-5xl font-bold text-green-600 mb-2">60s</div>
-                    <div class="text-gray-600">Response Time</div>
-                </div>
-                <div>
-                    <div class="text-4xl md:text-5xl font-bold text-purple-600 mb-2">24/7</div>
-                    <div class="text-gray-600">Lead Qualification</div>
-                </div>
-                <div>
-                    <div class="text-4xl md:text-5xl font-bold text-orange-600 mb-2">100%</div>
-                    <div class="text-gray-600">CRM Automation</div>
+                    <p class="text-white/60 text-sm leading-relaxed font-light">"The AI sounds so natural, customers
+                        don't even realize it's automated. It frees us to focus on high-ticket builds."</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Final CTA Section -->
-    <section id="contact" class="bg-white py-24 px-4">
-        <div class="max-w-4xl mx-auto">
-            <div class="text-center mb-12">
-                <div class="inline-block bg-blue-100 text-blue-700 px-6 py-2 rounded-full text-sm font-semibold mb-6">
-                    <i class="fas fa-calendar-check mr-2"></i>SCHEDULE YOUR FREE CONSULTATION
-                </div>
-                <h2 class="text-3xl md:text-5xl font-bold mb-6 text-gray-900">Ready to Stop Wasting Time on Unqualified
-                    Leads?</h2>
-                <p class="text-xl text-gray-600 mb-8">Schedule a discovery call to see how OROVA can transform your lead
-                    qualification process.</p>
+    <!-- Sectors Section -->
+    <section id="sectors" class="py-32 px-6 relative scroll-section scroll-mt-24">
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
+        </div>
+
+        <div class="max-w-[1200px] mx-auto relative z-10">
+            <div class="mb-20 text-center">
+                <span
+                    class="text-[10px] font-mono uppercase tracking-[0.5em] text-white/40 mb-6 block">Specialization</span>
+                <h2 class="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-none mb-6">
+                    LUXURY<br>
+                    <span class="text-white/20 font-light">VERTICALS.</span>
+                </h2>
             </div>
 
-            <!-- Contact Form -->
-            <div class="glass-card p-8 md:p-12 max-w-2xl mx-auto">
-                <form id="contactForm" class="space-y-6">
-                    <!-- First Name & Last Name -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label for="firstName" class="block text-sm font-semibold mb-2 text-gray-700">
-                                First Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="firstName" name="firstName" placeholder="John" required>
-                        </div>
-                        <div>
-                            <label for="lastName" class="block text-sm font-semibold mb-2 text-gray-700">
-                                Last Name <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" id="lastName" name="lastName" placeholder="Smith" required>
-                        </div>
+            <!-- Sector Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sector-cards">
+                <!-- Sector 1: Automotive -->
+                <div
+                    class="sector-card p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group text-center">
+                    <div
+                        class="w-16 h-16 mx-auto mb-6 rounded-full border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
                     </div>
+                    <h3 class="text-lg font-mono font-semibold mb-2 tracking-tight">HIGH-END AUTOMOTIVE</h3>
+                    <p class="text-xs text-white/40 font-mono uppercase tracking-wide">Exotic / Collector</p>
+                </div>
 
-                    <!-- Phone Number (Required) -->
-                    <div>
-                        <label for="phone" class="block text-sm font-semibold mb-2 text-gray-700">
-                            Phone Number <span class="text-red-500">*</span>
-                        </label>
-                        <input type="tel" id="phone" name="phone" placeholder="(555) 123-4567" required
-                            pattern="[0-9\s\-\(\)\+]+">
-                        <div id="phoneError" class="error-message">Please enter a valid phone number</div>
+                <!-- Sector 2: Home Remodeling -->
+                <div
+                    class="sector-card p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group text-center">
+                    <div
+                        class="w-16 h-16 mx-auto mb-6 rounded-full border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                        </svg>
                     </div>
+                    <h3 class="text-lg font-mono font-semibold mb-2 tracking-tight">LUXURY REMODELING</h3>
+                    <p class="text-xs text-white/40 font-mono uppercase tracking-wide">$50k+ Projects</p>
+                </div>
 
-                    <!-- Business Name (Optional) -->
-                    <div>
-                        <label for="business" class="block text-sm font-semibold mb-2 text-gray-700">Business
-                            Name</label>
-                        <input type="text" id="business" name="business" placeholder="Your dealership or shop name">
+                <!-- Sector 3: Aviation -->
+                <div
+                    class="sector-card p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group text-center">
+                    <div
+                        class="w-16 h-16 mx-auto mb-6 rounded-full border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+                        </svg>
                     </div>
+                    <h3 class="text-lg font-mono font-semibold mb-2 tracking-tight">PRIVATE AVIATION</h3>
+                    <p class="text-xs text-white/40 font-mono uppercase tracking-wide">Jet Charter / Ownership</p>
+                </div>
 
-                    <!-- Email (Optional) -->
-                    <div>
-                        <label for="email" class="block text-sm font-semibold mb-2 text-gray-700">Email</label>
-                        <input type="email" id="email" name="email" placeholder="you@yourbusiness.com">
+                <!-- Sector 4: Real Estate -->
+                <div
+                    class="sector-card p-8 rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md hover:bg-white/10 transition-all duration-500 group text-center">
+                    <div
+                        class="w-16 h-16 mx-auto mb-6 rounded-full border border-white/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                        <svg class="w-8 h-8 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
                     </div>
+                    <h3 class="text-lg font-mono font-semibold mb-2 tracking-tight">LUXURY REAL ESTATE</h3>
+                    <p class="text-xs text-white/40 font-mono uppercase tracking-wide">$2M+ Properties</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                    <!-- Service Area (Optional) -->
-                    <div>
-                        <label for="area" class="block text-sm font-semibold mb-2 text-gray-700">City / State</label>
-                        <input type="text" id="area" name="area" placeholder="e.g., Los Angeles, CA">
-                    </div>
+    <!-- Private Briefing Section -->
+    <section id="briefing"
+        class="min-h-screen flex items-center justify-center px-6 py-32 relative scroll-section scroll-mt-24">
+        <div class="absolute inset-0 opacity-[0.02]"
+            style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;">
+        </div>
 
-                    <!-- Submit Button -->
-                    <button type="submit"
-                        class="btn-primary w-full text-white font-bold py-5 px-8 rounded-full text-lg shadow-2xl">
-                        <i class="fas fa-calendar-check mr-2"></i>
-                        Schedule My Discovery Call
-                    </button>
-
-                    <!-- Success Message -->
-                    <div id="successMessage"
-                        class="hidden bg-green-500/20 border border-green-500 text-green-400 p-4 rounded-lg text-center">
-                        <i class="fas fa-check-circle text-2xl mb-2"></i>
-                        <p class="font-semibold">Thank you! We'll contact you within 24 hours.</p>
-                    </div>
-                </form>
-
-                <!-- Privacy Note -->
-                <p class="text-sm text-gray-700 text-center mt-6">
-                    <i class="fas fa-lock mr-1"></i>
-                    Your information is secure. We'll only use it to schedule your discovery call.
+        <div class="max-w-[800px] mx-auto w-full relative z-10">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl md:text-7xl font-mono font-bold tracking-tighter leading-none mb-6">
+                    THE PRIVATE<br>
+                    <span class="text-white/20 font-light">PIPELINE.</span>
+                </h2>
+                <p class="text-white/40 text-lg font-light leading-relaxed max-w-2xl mx-auto">
+                    OROVA is currently accepting a limited number of new partners in the luxury sector.<br>
+                    Share your details to initiate a proprietary lead-flow audit.
                 </p>
+            </div>
+
+            <!-- Sequential Form -->
+            <form id="briefing-form" class="space-y-8">
+                <!-- Field 1: Name -->
+                <div class="form-field opacity-0" data-field="name">
+                    <label class="block text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-4">[IDENTIFY] —
+                        Enter Full Name</label>
+                    <input type="text" name="name" id="form-name" required
+                        class="glow-input w-full bg-transparent border-b border-white/20 focus:border-white pb-4 text-white text-xl font-light outline-none transition-all duration-300"
+                        placeholder="John Doe">
+                </div>
+
+                <!-- Field 2: Email -->
+                <div class="form-field opacity-0" data-field="email">
+                    <label class="block text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-4">[CONNECT] —
+                        Professional Email Address</label>
+                    <input type="email" name="email" id="form-email" required
+                        class="glow-input w-full bg-transparent border-b border-white/20 focus:border-white pb-4 text-white text-xl font-light outline-none transition-all duration-300"
+                        placeholder="example@email.com">
+                </div>
+
+                <!-- Field 3: Phone -->
+                <div class="form-field opacity-0" data-field="phone">
+                    <label class="block text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-4">[DIRECT LINE] —
+                        Mobile / WhatsApp</label>
+                    <input type="tel" name="phone" id="form-phone" required
+                        class="glow-input w-full bg-transparent border-b border-white/20 focus:border-white pb-4 text-white text-xl font-light outline-none transition-all duration-300"
+                        placeholder="+1 (555) 000-0000">
+                </div>
+
+                <!-- Field 4: Industry -->
+                <div class="form-field opacity-0" data-field="industry">
+                    <label class="block text-xs font-mono uppercase tracking-[0.3em] text-white/40 mb-4">[SECTOR] —
+                        Select Industry</label>
+                    <select name="industry" id="form-industry" required
+                        class="glow-input w-full bg-black border-b border-white/20 focus:border-white pb-4 text-white text-xl font-light outline-none transition-all duration-300 cursor-pointer">
+                        <option value="" disabled selected>Choose your vertical</option>
+                        <option value="Luxury Remodeling">Luxury Home Remodeling</option>
+                        <option value="High-End Automotive">High-End Automotive</option>
+                        <option value="Private Aviation">Private Aviation</option>
+                        <option value="Luxury Real Estate">Luxury Real Estate</option>
+                        <option value="Yachting Management">Yachting Management</option>
+                        <option value="Other">Other Luxury Sector</option>
+                    </select>
+                </div>
+
+                <!-- Submit Area -->
+                <div class="form-field opacity-0 flex justify-center pt-8" data-field="submit">
+                    <button type="submit" id="submit-btn"
+                        class="group flex items-center gap-4 px-12 py-6 rounded-full border border-white/20 hover:border-white hover:bg-white/10 transition-all duration-500">
+                        <span class="text-sm font-mono uppercase tracking-[0.3em] text-white">Initiate Handoff</span>
+                        <svg class="w-5 h-5 text-white group-hover:translate-x-1 transition-transform duration-300"
+                            fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                        </svg>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Confirmation Message -->
+            <div id="confirmation-message" class="hidden text-center">
+                <div
+                    class="inline-flex flex-col items-center gap-6 p-12 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-md confirmation-card">
+                    <div class="w-16 h-16 rounded-full border border-white/20 flex items-center justify-center">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                                d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-mono font-bold mb-2">BRIEFING REQUESTED</h3>
+                        <p class="text-white/40 text-sm font-mono uppercase tracking-wide">Infrastructure Initiated —
+                            Stand by for contact</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-200 py-12 px-4">
-        <div class="max-w-6xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8 mb-8">
-                <!-- Brand -->
-                <div>
-                    <img src="assets/orova-logo.png" alt="OROVA" class="h-8 mb-2">
-                    <p class="text-gray-600">AI-powered lead qualification for automotive businesses nationwide.</p>
-                </div>
-
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="font-semibold mb-4 text-gray-900">Quick Links</h4>
-                    <ul class="space-y-2 text-gray-600">
-                        <li><a href="#demo" class="hover:text-blue-600 transition">AI Demo</a></li>
-                        <li><a href="#contact" class="hover:text-blue-600 transition">Contact</a></li>
-                        <li><a href="#" class="hover:text-blue-600 transition">Privacy Policy</a></li>
-                        <li><a href="#" class="hover:text-blue-600 transition">Terms of Service</a></li>
-                    </ul>
-                </div>
-
-                <!-- Contact Info -->
-                <div>
-                    <h4 class="font-semibold mb-4 text-gray-900">Get in Touch</h4>
-                    <a href="https://www.instagram.com/orova.co" target="_blank"
-                        class="text-gray-600 hover:text-pink-500 transition flex items-center mb-2">
-                        <i class="fab fa-instagram mr-2 text-pink-500 text-lg"></i>orova.co
-                    </a>
-                    <p class="text-gray-600 mb-2"><i class="fas fa-phone mr-2 text-blue-600"></i>(555) OROVA-AI</p>
-                    <p class="text-gray-600"><i class="fas fa-clock mr-2 text-blue-600"></i>24/7 AI Support</p>
-                </div>
+    <footer class="py-16 px-6 border-t border-white/10 relative">
+        <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-8">
+                <img src="assets/orova-logo.png" alt="OROVA Logo" class="h-6 w-auto invert opacity-60">
+                <span class="text-[10px] font-mono text-white/30 uppercase tracking-wider">© 2026 OROVA. Private
+                    Pipeline.</span>
             </div>
-
-            <!-- Copyright -->
-            <div class="border-t border-gray-200 pt-8 text-center text-gray-600 text-sm">
-                <p>&copy; 2026 OROVA Systems. All rights reserved.</p>
+            <div class="flex items-center gap-8 text-[10px] font-mono text-white/30 uppercase tracking-wider">
+                <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms</a>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript -->
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+    <style>
+        @keyframes pulse-ring {
+            0% {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 0.5;
+            }
+
+            100% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        .animate-pulse-ring {
+            animation: pulse-ring 3s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .delay-1000 {
+            animation-delay: 1s;
+        }
+    </style>
+
     <script>
-        // Audio Visualizer
-        const canvas = document.getElementById('audioVisualizer');
-        const ctx = canvas.getContext('2d');
+        // Audio Visualizer Logic (SIMPLIFIED - CSS ONLY)
         const audioPlayer = document.getElementById('audioPlayer');
         const playButton = document.getElementById('playButton');
+        const pulseRing1 = document.getElementById('pulseRing1');
+        const pulseRing2 = document.getElementById('pulseRing2');
         let isPlaying = false;
-        let animationId;
 
-        // Set canvas size
-        const setCanvasSize = () => {
-            const size = window.innerWidth >= 768 ? 280 : 200;
-            canvas.width = size;
-            canvas.height = size;
-        };
-        setCanvasSize();
-        window.addEventListener('resize', setCanvasSize);
+        playButton.addEventListener('click', () => {
+            if (isPlaying) {
+                audioPlayer.pause();
+                isPlaying = false;
+                playButton.innerHTML = '<svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
 
-        // Audio context for visualizer
-        let audioContext, analyser, source;
+                // Stop Animation
+                pulseRing1.classList.remove('animate-pulse-ring');
+                pulseRing2.classList.remove('animate-pulse-ring');
+                pulseRing2.classList.remove('delay-1000');
 
-        const initAudio = () => {
-            if (!audioContext) {
-                audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                analyser = audioContext.createAnalyser();
-                analyser.fftSize = 256;
-                source = audioContext.createMediaElementSource(audioPlayer);
-                source.connect(analyser);
-                analyser.connect(audioContext.destination);
-            }
-        };
-
-        // Play/Pause functionality
-        playButton.addEventListener('click', async () => {
-            try {
-                initAudio();
-
-                // Resume audio context if suspended (required by browsers)
-                if (audioContext.state === 'suspended') {
-                    await audioContext.resume();
-                }
-
-                if (isPlaying) {
-                    audioPlayer.pause();
-                    playButton.innerHTML = '<i class="fas fa-play"></i>';
-                    isPlaying = false;
-                    cancelAnimationFrame(animationId);
-                    drawStaticCircle();
-                } else {
-                    await audioPlayer.play();
-                    playButton.innerHTML = '<i class="fas fa-pause"></i>';
-                    isPlaying = true;
-                    visualize();
-                }
-            } catch (error) {
-                console.error('Audio playback error:', error);
-                alert('Could not play audio. Please try again.');
-            }
-        });
-
-        // Draw static circle when not playing
-        const drawStaticCircle = () => {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            const centerX = canvas.width / 2;
-            const centerY = canvas.height / 2;
-            const radius = Math.min(canvas.width, canvas.height) / 3;
-
-            ctx.beginPath();
-            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-            ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
-            ctx.lineWidth = 3;
-            ctx.stroke();
-        };
-
-        // Visualize audio
-        const visualize = () => {
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-
-            const draw = () => {
-                animationId = requestAnimationFrame(draw);
-                analyser.getByteFrequencyData(dataArray);
-
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-                const centerX = canvas.width / 2;
-                const centerY = canvas.height / 2;
-                const radius = Math.min(canvas.width, canvas.height) / 3;
-                const barCount = 60;
-
-                for (let i = 0; i < barCount; i++) {
-                    const angle = (i / barCount) * Math.PI * 2;
-                    const dataIndex = Math.floor((i / barCount) * bufferLength);
-                    const amplitude = dataArray[dataIndex] / 255;
-                    const barHeight = amplitude * 60;
-
-                    const x1 = centerX + Math.cos(angle) * radius;
-                    const y1 = centerY + Math.sin(angle) * radius;
-                    const x2 = centerX + Math.cos(angle) * (radius + barHeight);
-                    const y2 = centerY + Math.sin(angle) * (radius + barHeight);
-
-                    const gradient = ctx.createLinearGradient(x1, y1, x2, y2);
-                    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.8)');
-                    gradient.addColorStop(1, 'rgba(168, 85, 247, 0.8)');
-
-                    ctx.beginPath();
-                    ctx.moveTo(x1, y1);
-                    ctx.lineTo(x2, y2);
-                    ctx.strokeStyle = gradient;
-                    ctx.lineWidth = 3;
-                    ctx.stroke();
-                }
-
-                // Center circle
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, radius * 0.8, 0, 2 * Math.PI);
-                ctx.fillStyle = 'rgba(26, 26, 46, 0.8)';
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(59, 130, 246, 0.3)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-            };
-
-            draw();
-        };
-
-        // Reset on audio end
-        audioPlayer.addEventListener('ended', () => {
-            playButton.innerHTML = '<i class="fas fa-play"></i>';
-            isPlaying = false;
-            cancelAnimationFrame(animationId);
-            drawStaticCircle();
-        });
-
-        // Initialize static circle
-        drawStaticCircle();
-
-        // Sticky CTA
-        const stickyCTA = document.getElementById('stickyCTA');
-        let hasScrolled = false;
-
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 600 && !hasScrolled) {
-                stickyCTA.classList.add('visible');
-                hasScrolled = true;
-            } else if (window.scrollY <= 600 && hasScrolled) {
-                stickyCTA.classList.remove('visible');
-                hasScrolled = false;
-            }
-        });
-
-        // Scroll to form
-        const scrollToForm = () => {
-            document.getElementById('contact').scrollIntoView({ behavior: 'smooth' });
-        };
-
-        // Form validation and submission
-        const contactForm = document.getElementById('contactForm');
-        const phoneInput = document.getElementById('phone');
-        const phoneError = document.getElementById('phoneError');
-        const successMessage = document.getElementById('successMessage');
-
-        // Phone validation
-        phoneInput.addEventListener('blur', () => {
-            const phoneRegex = /^[\d\s\-\(\)\+]{10,}$/;
-            if (phoneInput.value && !phoneRegex.test(phoneInput.value)) {
-                phoneError.classList.add('show');
-                phoneInput.style.borderColor = '#ef4444';
             } else {
-                phoneError.classList.remove('show');
-                phoneInput.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                // Simple Play - No AudioContext, No Analysis, Just Sound.
+                audioPlayer.play().then(() => {
+                    isPlaying = true;
+                    playButton.innerHTML = '<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+
+                    // Start CSS Animation
+                    pulseRing1.classList.add('animate-pulse-ring');
+                    pulseRing2.classList.add('animate-pulse-ring');
+                    pulseRing2.classList.add('delay-1000'); // Offset for ripple effect
+                }).catch(e => {
+                    console.error("Playback failed:", e);
+                    alert("Audio playback failed: " + e.message);
+                });
             }
         });
 
-        // Form submission
-        contactForm.addEventListener('submit', (e) => {
+        // Reset state when audio ends
+        audioPlayer.addEventListener('ended', () => {
+            playButton.innerHTML = '<svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            isPlaying = false;
+            pulseRing1.classList.remove('animate-pulse-ring');
+            pulseRing2.classList.remove('animate-pulse-ring');
+            pulseRing2.classList.remove('delay-1000');
+        });
+
+
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Initial animations
+        window.addEventListener('load', () => {
+            gsap.from(".hero-headline", { opacity: 0, y: 100, duration: 1.5, ease: "power4.out" });
+            gsap.from(".hero-subtext", { opacity: 0, y: 50, duration: 1.5, delay: 0.5, ease: "power4.out" });
+            gsap.from(".floating-cards > *", { opacity: 0, y: 30, stagger: 0.2, duration: 1, delay: 1, ease: "power3.out" });
+        });
+
+        // Scroll animations
+        gsap.utils.toArray('.process-card').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%"
+                },
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        gsap.utils.toArray('.sector-card').forEach(card => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 90%"
+                },
+                opacity: 0,
+                scale: 0.9,
+                duration: 0.8,
+                ease: "back.out(1.7)"
+            });
+        });
+
+        // Form field reveal
+        const fields = document.querySelectorAll('.form-field');
+        gsap.utils.toArray('.form-field').forEach((field, i) => {
+            ScrollTrigger.create({
+                trigger: field,
+                start: "top 90%",
+                onEnter: () => gsap.to(field, { opacity: 1, y: 0, duration: 0.8 })
+            });
+        });
+
+        // Navbar blur on scroll
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('bg-black/80', 'backdrop-blur-md', 'py-4');
+                navbar.classList.remove('py-6');
+            } else {
+                navbar.classList.remove('bg-black/80', 'backdrop-blur-md', 'py-4');
+                navbar.classList.add('py-6');
+            }
+        });
+
+        // Form submission logic
+        const form = document.getElementById('briefing-form');
+        const confirmation = document.getElementById('confirmation-message');
+
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            const phoneRegex = /^[\d\s\-\(\)\+]{10,}$/;
-            if (!phoneRegex.test(phoneInput.value)) {
-                phoneError.classList.add('show');
-                phoneInput.style.borderColor = '#ef4444';
-                phoneInput.focus();
-                return;
-            }
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.textContent = "Processing...";
+            submitBtn.disabled = true;
 
-            // Collect form data
+            const name = document.getElementById('form-name').value;
+            const names = name.split(' ');
+            const firstName = names[0];
+            const lastName = names.slice(1).join(' ') || '';
+
             const formData = {
-                firstName: document.getElementById('firstName').value,
-                lastName: document.getElementById('lastName').value,
-                phone: phoneInput.value,
-                business: document.getElementById('business').value,
-                email: document.getElementById('email').value,
-                area: document.getElementById('area').value,
+                firstName: firstName,
+                lastName: lastName,
+                email: document.getElementById('form-email').value,
+                phone: document.getElementById('form-phone').value,
+                business: document.getElementById('form-industry').value,
+                area: document.getElementById('form-industry').value,
                 timestamp: new Date().toISOString()
             };
 
-            // Send to backend
             try {
-                fetch('/api/submit-lead', {
+                const response = await fetch('/api/submit-lead', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(formData)
-                })
-                    .then(response => response.json())
-                    .then(data => console.log('Success:', data))
-                    .catch((error) => console.error('Error:', error));
+                });
+
+                const result = await response.json();
+                console.log('Submission result:', result);
+
+                // Success Animation
+                gsap.to(form, {
+                    opacity: 0,
+                    scale: 0.95,
+                    duration: 0.5,
+                    onComplete: () => {
+                        form.style.display = 'none';
+                        confirmation.classList.remove('hidden');
+                        gsap.from(confirmation, { opacity: 0, y: 20, duration: 0.8 });
+                    }
+                });
             } catch (error) {
                 console.error('Submission error:', error);
+                alert("Submission error. Please try again.");
+                submitBtn.textContent = "Initiate Handoff";
+                submitBtn.disabled = false;
             }
+        });
+        // Magnetic Button Effect
+        const magnets = document.querySelectorAll('.magnetic-btn');
+        magnets.forEach((magnet) => {
+            magnet.addEventListener('mousemove', (e) => {
+                const position = magnet.getBoundingClientRect();
+                const x = e.pageX - position.left - position.width / 2;
+                const y = e.pageY - position.top - position.height / 2;
 
-            // Show success message immediately (optimistic UI)
-            contactForm.style.display = 'none';
-            successMessage.classList.remove('hidden');
+                magnet.style.transform = `translate(${x * 0.3}px, ${y * 0.5}px)`;
+                magnet.children[0].style.transform = `translate(${x * 0.1}px, ${y * 0.1}px)`;
+            });
+
+            magnet.addEventListener('mouseleave', (e) => {
+                magnet.style.transform = 'translate(0px, 0px)';
+                magnet.children[0].style.transform = 'translate(0px, 0px)';
+            });
         });
     </script>
 </body>
