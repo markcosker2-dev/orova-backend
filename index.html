@@ -904,6 +904,12 @@
         const form = document.getElementById('briefing-form');
         const confirmation = document.getElementById('confirmation-message');
 
+        // --- CONFIGURATION ---
+        // 1. Create a Google Apps Script Web App (see SHEETS_INTEGRATION_GUIDE.md)
+        // 2. Paste the URL inside the quotes below:
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw6gr5aGnucw8cqcYGFEvHwF81f2dNn7zjczn2KfXOUEzuyUQrduLmCxQTzZhsguvFh/exec';
+        // ---------------------
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -927,14 +933,28 @@
             };
 
             try {
-                const response = await fetch('/api/submit-lead', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(formData)
-                });
-
-                const result = await response.json();
-                console.log('Submission result:', result);
+                let response;
+                if (GOOGLE_SCRIPT_URL) {
+                    // Use Google Apps Script (Serverless / GitHub Pages)
+                    // mode: 'no-cors' is required for Google Scripts to work from client-side JS
+                    response = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    // precise result cannot be read in no-cors, assume success if no network error
+                    console.log('Submitted to Google Sheets via Script');
+                } else {
+                    // Fallback to Python Backend (Local / VPS)
+                    response = await fetch('/api/submit-lead', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(formData)
+                    });
+                    constresult = await response.json();
+                    console.log('Submission result:', result);
+                }
 
                 // Success Animation
                 gsap.to(form, {
